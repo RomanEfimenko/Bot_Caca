@@ -1,11 +1,9 @@
 import amino
 import random
-import pyglet
 import os
-
+import time
 
 random.seed(); # my code
-
 
 client = amino.Client()
 
@@ -13,11 +11,16 @@ client.login(email='efimenko@ucoz-team.net', password='123456789')
 
 subclient = amino.SubClient(comId="131410019", profile=client.profile)
 
-id_chat_send_sms = 'ec7f1dc8-d418-4873-905b-e1544401dd28';
+id_chat_send_sms = 'd2946d45-8835-4e01-b886-fadad4357be7'; # TEST
+#id_chat_send_sms = 'ec7f1dc8-d418-4873-905b-e1544401dd28'; # 18+
 
 print("Begin work...\n");
 
-print("--- Choose chat 18+\n\n");
+if id_chat_send_sms == 'd2946d45-8835-4e01-b886-fadad4357be7':
+    print("--- Choose TEST CHAT\n\n");
+if id_chat_send_sms == 'ec7f1dc8-d418-4873-905b-e1544401dd28':
+    print("--- Choose chat 18+\n\n");
+
 #---------------------------------------------------------------------------
 
 oldMessages = []
@@ -34,14 +37,11 @@ while True:
         for message, messageId, author in zip(msg.content, msg.messageId, msg.author.nickname):
             if not messageId in oldMessages:
 
-
                 print(chatId, author, message)
-
-
 
                 # "ping" me comnand
                 str_msg_lwr = str(message).lower();
-                res1 = str_msg_lwr.find("@добрий день");
+                res1 = str_msg_lwr.find("добрий день");
                 res2 = str_msg_lwr.find("рома");
                 res3 = 0;
                 #print(str(res1)+"\n"+str(res2));
@@ -51,7 +51,8 @@ while True:
                     res3 = 228;
                 if str(res3) == "228" :
                     print("\n***Play sound alert***\n");
-                    os.system("ds_norm.py");
+                    os.system("ds.py");
+
                 #---------------------------------------------------
                 # "!ping" comnand
                 if str(message).startswith("!ping"):
@@ -78,24 +79,30 @@ while True:
                     oldFile.write(messageId + "\n")
                     oldFile.close()
 
+    #---- send_sms_cmd.py ---------------------------------------
+
     text_file = open("send_message_cmd.txt", "r");
     send_message_cmd_string = text_file.read();
     text_file.close();
 
+    text_file_bot = open("testbot_config.txt", "r");
+    testbot_config_clac = text_file_bot.read();
+    text_file_bot.close();
+
+    if (testbot_config_clac == "!!!1") :
+        if id_chat_send_sms == 'd2946d45-8835-4e01-b886-fadad4357be7':
+            id_chat_send_sms = 'ec7f1dc8-d418-4873-905b-e1544401dd28';
+            print("--- Choose chat 18+\n");
+        elif id_chat_send_sms == 'ec7f1dc8-d418-4873-905b-e1544401dd28':
+            id_chat_send_sms = 'd2946d45-8835-4e01-b886-fadad4357be7';
+            print("--- Choose test chat\n");
+    text_file_bot = open("testbot_config.txt", "w");
+    text_file_bot.write("");
+    text_file_bot.close();
+
     if (send_message_cmd_string != "") :
-        if (send_message_cmd_string == "клац") :
-            if id_chat_send_sms == 'd2946d45-8835-4e01-b886-fadad4357be7':
-                id_chat_send_sms = 'ec7f1dc8-d418-4873-905b-e1544401dd28';
-                print("--- Choose chat 18+\n");
-            if id_chat_send_sms == 'ec7f1dc8-d418-4873-905b-e1544401dd28':
-                id_chat_send_sms = 'd2946d45-8835-4e01-b886-fadad4357be7';
-                print("--- Choose test chat\n");
-            text_file = open("send_message_cmd.txt", "w");
-            text_file.write("");
-            text_file.close();
-        else:
-            print("Send message: "+send_message_cmd_string);
-            subclient.send_message(message=send_message_cmd_string, chatId=id_chat_send_sms);
-            text_file = open("send_message_cmd.txt", "w");
-            text_file.write("");
-            text_file.close();
+        print("Send message: "+send_message_cmd_string);
+        subclient.send_message(message=send_message_cmd_string, chatId=id_chat_send_sms);
+    text_file = open("send_message_cmd.txt", "w");
+    text_file.write("");
+    text_file.close();
