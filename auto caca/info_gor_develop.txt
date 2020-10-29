@@ -1,0 +1,21 @@
+nickname
+level
+onlineStatus
+postsCount
+membershipStatus
+role
+email
+avatarFrame
+content
+createdTime
+customTitles
+dateOfBirth
+
+File "S:\GitHub\Bot_Caca\Bot_Caca\DevelopBot\develop_bot.py", line 8, in <module> client.login(email='xxxxxx@mail.ru', password='xxxxxxxx');
+File "C:\Users\Самурай\AppData\Local\Programs\Python\Python38-32\lib\site-packages\amino\client.py", line 57, in login if response.status_code != 200: return exceptions.CheckException(json.loads(response.text))
+File "C:\Users\Самурай\AppData\Local\Programs\Python\Python38-32\lib\site-packages\amino\lib\util\exceptions.py", line 725, in CheckException
+    elif api_code == 110: raise ActionNotAllowed(data)
+amino.lib.util.exceptions.ActionNotAllowed: {'api:message': 'Action not allowed.', 'api:timestamp': '2020-10-22T01:13:40Z', 'api:statuscode': 110, 'api:duration': '0.019s'}
+
+Process returned 1 (0x1)        execution time : 4.007 s
+Для продолжения нажмите любую клавишу . . .
