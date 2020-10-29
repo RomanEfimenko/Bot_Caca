@@ -62,13 +62,13 @@ while working:
     if (time.time()-start_script_time) > 1000: # каждые 1000 секунд
         start_script_time = time.time();
         kill(proc.pid)
-        proc = subprocess.Popen("python exit_script.py", shell=True)
+        proc = subprocess.Popen(path_controll_proces, shell=True)
         update_time()
     #---- check restart_script bool var ---------------------------------
     if restart_script_bool:
         restart_script_time = time.time();
         kill(proc.pid)
-        proc = subprocess.Popen("python exit_script.py", shell=True)
+        proc = subprocess.Popen(path_controll_procesexit, shell=True)
         update_time()
     #---- read info nowsession.txt -------------------------------------
     if (time.time()-read_nowsession_time) > 5: # каждые 2 секунд
