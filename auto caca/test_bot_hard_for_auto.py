@@ -3,8 +3,6 @@ import random
 import os
 import time
 
-global_time = time.time();
-
 pulse_time = time.time();
 
 offchathimark = False;
@@ -145,14 +143,6 @@ while True:
     text_file = open("send_message_cmd.txt", "w");
     text_file.write("");
     text_file.close();
-
-    #---- read info to nowsession.txt ---------------------------------------
-
-    if (time.time()-global_time) > 1:   # каждую секунду выполнение
-        global_time = time.time();
-        text_file = open("nowsession.txt", "w");
-        text_file.write(str(global_time));
-        text_file.close();
 
     #---- write info to nowsession.txt -------------------------------------
     if (time.time()-pulse_time) > 1:   # каждую секунду выполнение
