@@ -4,27 +4,29 @@ import os
 import time
 
 pulse_time = time.time();
+offchathimark = False; # Если тру - не пишет смс в общий чат 18+
+meAlertSound = False; # Если тру - выдает звук когда меня упоминают в чате.
 
-offchathimark = False;
 
-random.seed(); # my code
+random.seed(); #
 
 client = amino.Client()
 
 client.login(email='efimenko@ucoz-team.net', password='123456789')
 
-subclient = amino.SubClient(comId="131410019", profile=client.profile)
+subclient = amino.SubClient(comId="131410019", profile=client.profile) # заходим в сообщество "ЛЗ"
 
+print(time.asctime()+" #--- Begin work caca...");
+
+#------ Выбираем в какой чат будем отправлять сообщения через скрипт "send_sms_cmd.py"
 id_chat_send_sms = 'd2946d45-8835-4e01-b886-fadad4357be7'; # TEST
 #id_chat_send_sms = 'ec7f1dc8-d418-4873-905b-e1544401dd28'; # 18+
-
-print("Begin work...\n");
-
 if id_chat_send_sms == 'd2946d45-8835-4e01-b886-fadad4357be7':
-    print("--- Choose TEST CHAT\n\n");
-if id_chat_send_sms == 'ec7f1dc8-d418-4873-905b-e1544401dd28':
-    print("--- Choose chat 18+\n\n");
-
+    id_chat_send_sms = 'd2946d45-8835-4e01-b886-fadad4357be7';
+    #print("--- Choose TEST CHAT");
+elif id_chat_send_sms == 'ec7f1dc8-d418-4873-905b-e1544401dd28':
+    id_chat_send_sms = 'ec7f1dc8-d418-4873-905b-e1544401dd28';
+    #print("--- Choose chat 18+");
 #---------------------------------------------------------------------------
 
 oldMessages = []
@@ -40,24 +42,33 @@ while True:
         msg = subclient.get_chat_messages(chatId=chatId, size=25)
         for message, messageId, author in zip(msg.content, msg.messageId, msg.author.nickname):
             if not messageId in oldMessages:
+                #---------------------------------------------------
+                #----- Названия чатов
+                chat_name = "ЛЗ общий чат 18+ : "
+                if chatId == 'ec7f1dc8-d418-4873-905b-e1544401dd28' :
+                    chat_name = "ЛЗ общий чат 18+ : "
+                elif chatId == 'd2946d45-8835-4e01-b886-fadad4357be7' :
+                    chat_name = "ЛЗ тестовый чат : "
 
-                print(chatId, author, message)
+                print(chat_name, author, message)
+                #print(chatId, author, message)
 
-                # "ping" me comnand
-                str_msg_lwr = str(message).lower();
-                res1 = str_msg_lwr.find("добрий день");
-                res2 = str_msg_lwr.find("рома");
-                res3 = 0;
-                #print(str(res1)+"\n"+str(res2));
-                if str(res1) != "-1" :
-                    res3 = 228;
-                if str(res2) != "-1" :
-                    res3 = 228;
-                if str(res3) == "228" :
-                    print("\n***Play sound alert***(quiet mode)\n");
-                    #os.system("ds.py");
+                textMessageLower = str(message).lower();
 
-
+                #---------------------------------------------------
+                # "ping" me(Alert sound) - выдает звук когда меня упоминают в чате.
+                if meAlertSound :
+                    res1 = textMessageLower.find("добрий день");
+                    res2 = textMessageLower.find("рома");
+                    res3 = 0;
+                    #print(str(res1)+"\n"+str(res2));
+                    if res1 != -1 :
+                        res3 = 228;
+                    if res2 != -1 :
+                        res3 = 228;
+                    if res3 == 228 :
+                        #os.system("ds.py");
+                        print("\n***Play sound alert***(quiet mode)\n");
                 #---------------------------------------------------
                 # "18+ off@"
                 if offchathimark :
@@ -68,7 +79,7 @@ while True:
                             oldFile.close()
                         continue;
                 #---------------------------------------------------
-                # "answer to caca sms off@"
+                # "answer to caca sms off@" - бот не отвечает на свои же сообщения
                 if author.find('цаца') != -1 :
                     oldMessages.append(messageId)
                     with open("oldMessages.txt", "a") as oldFile:
@@ -76,12 +87,11 @@ while True:
                         oldFile.close()
                     continue;
                 #---------------------------------------------------
-                # "!ping" comnand
+                # КОМАНДА БОТА ПРИМЕР
                 if str(message).startswith("!ping"):
                     subclient.send_message(chatId, "Pong!")
                 #---------------------------------------------------
-                # my test comnand
-                textMessageLower = str(message).lower();
+                # МОИ КОМАНДЫ БОТА
                 if textMessageLower.startswith("!кости"):
                     r = random.randint(1,99);
                     otvet = author+", тобі випала така хуйня: "+str(r);
