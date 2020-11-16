@@ -37,8 +37,10 @@ def on_text_message(message):
 
 #client.login(email='karapass@bk.ru', password='123456789karapas');
 
-import amino
+#import amino
 
-client = amino.Client()
+#client = amino.Client()
 
-client.login(email='xxxxxx@mail.ru', password='xxxxxxxx');
+#client.login(email='xxxxxx@mail.ru', password='xxxxxxxx');
+
+input();
