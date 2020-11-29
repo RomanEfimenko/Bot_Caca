@@ -2,9 +2,10 @@ import amino
 import random
 import time
 import sys
+from gtts import gTTS
 
 #---------------------------------------------------------------------------
-#----- F "если данные слова входят - вернуть тру"
+#----- F "если данная строка входит - вернуть тру"
 def fInMsg(txt_res,text_find) :
     if txt_res.find(text_find) != -1:
         return True;
@@ -36,7 +37,8 @@ def getChatName(cht_Id) :
 start_bot_time = time.time();
 fInMsg_msg_content = '';
 
-try:
+#try:
+if True :
 
     random.seed(); # my code
 
@@ -91,9 +93,27 @@ try:
                         subclient.send_message(data_sms.chatId, "[I]"+text_plus+" [True]")
                     else :
                         subclient.send_message(data_sms.chatId, "[I]"+text_plus+" [Піздьож]")
+                elif fInStMsg(fInMsg_msg_content,"!спик") :
+                    tts = gTTS(data_sms.content[6:len(data_sms.content)], lang='ru')
+                    tts.save('speak.mp3')
+                    #subclient.send_message(chatId=data_sms.chatId, message="<$@"+str(data_sms.author.nickname)+"$>", mentionUserIds=[data_sms.author.userId])
+                    with open("speak.mp3","rb") as file:
+                        subclient.send_message(chatId=data_sms.chatId, file=file, fileType="audio")
+                elif fInStMsg(fInMsg_msg_content,"!спік") :
+                    tts = gTTS(data_sms.content[6:len(data_sms.content)], lang='uk')
+                    tts.save('speak.mp3')
+                    #subclient.send_message(chatId=data_sms.chatId, message="<$@"+str(data_sms.author.nickname)+"$>", mentionUserIds=[data_sms.author.userId])
+                    with open("speak.mp3","rb") as file:
+                        subclient.send_message(chatId=data_sms.chatId, file=file, fileType="audio")
+                elif fInStMsg(fInMsg_msg_content,"!speak") :
+                    tts = gTTS(data_sms.content[7:len(data_sms.content)], lang='en')
+                    tts.save('speak.mp3')
+                    #subclient.send_message(chatId=data_sms.chatId, message="<$@"+str(data_sms.author.nickname)+"$>", mentionUserIds=[data_sms.author.userId])
+                    with open("speak.mp3","rb") as file:
+                        subclient.send_message(chatId=data_sms.chatId, file=file, fileType="audio")
                 elif fInStMsg(fInMsg_msg_content,"!help") or fInStMsg(fInMsg_msg_content,"!хелп"):
                     subclient.send_message(data_sms.chatId, "[I]Меджік букви:")
-                    subclient.send_message(data_sms.chatId, "!кости !ду !дия")
+                    subclient.send_message(data_sms.chatId, "!кости !ду !дия !спик !speak")
                 #---------------------------------------------------
                 #subclient.send_message(data_sms.chatId, "@добрий день\nПідори", replyTo = data_sms.messageId);
 
@@ -113,8 +133,12 @@ try:
 
     # Через 470 секунд после запуска скрипт завершается
     while True :
+        #print("Time: "+str(time.time()-start_bot_time))
         if (time.time()-start_bot_time) > 470 :   # Если прошло 470 секунд после запуска вырубаем скрипт
             sys.exit()
-except :
-    print("Ошибка во время работы бота!")
-    exit()
+    #prekol = True
+    #while prekol :
+    #    prekol = input()
+#except :
+    #print("Ошибка во время работы бота!")
+    #exit()
